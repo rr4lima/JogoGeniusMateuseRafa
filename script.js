@@ -1,8 +1,8 @@
 const sons = {
-    vermelho: new Audio('sounds/vermelho.mp3'),
-    azul: new Audio('sounds/azul.mp3'),
-    verde: new Audio('sounds/verde.mp3'),
-    amarelo: new Audio('sounds/amarelo.mp3')
+  vermelho: new Audio('sounds/vermelho.mp3'),
+  azul: new Audio('sounds/azul.mp3'),
+  verde: new Audio('sounds/verde.mp3'),
+  amarelo: new Audio('sounds/amarelo.mp3')
 };
 
 const somVitoria = new Audio('sounds/ganhou.wav');
@@ -38,187 +38,147 @@ let jogoAtivo = false;
 let podeClicar = false;
 
 comecar.addEventListener('click', () => {
-    comecar.style.display = 'none';
-    conteudoJogo.classList.remove('escondido');
-    conteudoJogo.style.display = 'flex';
-    titulo.style.display = 'none';
-    header.style.display = 'flex';
-    atualizarPlacar();
+  comecar.style.display = 'none';
+  conteudoJogo.classList.remove('escondido');
+  conteudoJogo.style.display = 'flex';
+  titulo.style.display = 'none';
+  header.style.display = 'flex';
+  atualizarPlacar();
 });
 
-voltarBtn.addEventListener('click', () => {
-    conteudoJogo.style.display = 'none';
-    comecar.style.display = 'inline-block';
-    titulo.style.display = 'flex';
-    header.style.display = 'none';
-    sequencia = [];
-    sequenciaUsuario = [];
-    pontuacao = 0;
-    atualizarPlacar();
-    pararTimer();
-    jogoAtivo = false;
-    podeClicar = false;
-    timer.textContent = '00:00';
-});
+voltarBtn.addEventListener('click', reiniciarJogo);
 
 starBtn.addEventListener('click', () => {
-    if (sequencia.length >= limite) {
-        alert('Você atingiu o limite máximo de sequência. Parabéns!');
-        return;
-    }
-    if (!jogoAtivo) {
-        jogoAtivo = true;
-        sequencia = [];
-        pontuacao = 0;
-        atualizarPlacar();
-    }
-    sortear = Math.floor(Math.random() * cores.length);
-    sequencia.push(cores[sortear]);
-    console.log("Sequência de cores sorteadas:", sequencia.map(cor => cor.id));
-    selecionar();
+  if (sequencia.length >= limite) {
+    alert('Você atingiu o limite máximo de sequência. Parabéns!');
+    return;
+  }
+  if (!jogoAtivo) {
+    jogoAtivo = true;
+    sequencia = [];
+    pontuacao = 0;
+    atualizarPlacar();
+  }
+  const sortear = Math.floor(Math.random() * cores.length);
+  sequencia.push(cores[sortear]);
+  console.log("Sequência de cores sorteadas:", sequencia.map(cor => cor.id));
+  selecionar();
 });
 
 function selecionar() {
-    starBtn.disabled = true;
-    sequenciaUsuario = [];
-    desabilitarBotoes(true);
-    podeClicar = false;
+  starBtn.disabled = true;
+  sequenciaUsuario = [];
+  desabilitarBotoes(true);
+  podeClicar = false;
 
-    let tempoTotal = sequencia.length * 800;
-
-    sequencia.forEach((cor, index) => {
-        setTimeout(() => {
-            cor.style.transition = "transform 0.3s ease";
-            cor.style.transform = "scale(1.5)";
-            sons[cor.id].currentTime = 0;
-            sons[cor.id].play();
-
-
-            setTimeout(() => {
-                cor.style.transform = "scale(1)";
-            }, 500);
-        }, 800 * index);
-    });
-
+  sequencia.forEach((cor, index) => {
     setTimeout(() => {
-        starBtn.disabled = false;
-        desabilitarBotoes(false);
-        podeClicar = true;
-        iniciarTimer();
-    }, tempoTotal);
+      cor.classList.add('selecionado');
+      sons[cor.id].currentTime = 0;
+      sons[cor.id].play();
+      setTimeout(() => cor.classList.remove('selecionado'), 500);
+    }, 800 * index);
+  });
 
-    sequencia.forEach((cor, index) => {
-        setTimeout(() => {
-            cor.classList.add('selecionado');
-            setTimeout(() => {
-                cor.classList.remove('selecionado');
-            }, 500);
-        }, 800 * index);
-    });
-
-
+  setTimeout(() => {
+    starBtn.disabled = false;
+    desabilitarBotoes(false);
+    podeClicar = true;
+    iniciarTimer();
+  }, sequencia.length * 800);
 }
 
 function desabilitarBotoes(desabilitar) {
-    for (let botao of cores) {
-        botao.disabled = desabilitar;
-    }
+  for (let botao of cores) botao.disabled = desabilitar;
 }
 
 function verificarClique(corClicada) {
-    if (!jogoAtivo || !podeClicar) return;
+  if (!jogoAtivo || !podeClicar) return;
 
-    sons[corClicada.id].currentTime = 0;
-    sons[corClicada.id].play();
+  sons[corClicada.id].currentTime = 0;
+  sons[corClicada.id].play();
 
-    setTimeout(() => {
+  animarClique(corClicada);
+  sequenciaUsuario.push(corClicada);
 
-    }, 1500);
+  const indexAtual = sequenciaUsuario.length - 1;
 
+  if (sequenciaUsuario[indexAtual].id === sequencia[indexAtual].id) {
+    if (sequenciaUsuario.length === sequencia.length) {
+      pararTimer();
+      pontuacao++;
+      atualizarPlacar();
+      podeClicar = false;
 
-    animarClique(corClicada);
-    sequenciaUsuario.push(corClicada);
-
-    const indexAtual = sequenciaUsuario.length - 1;
-
-    if (sequenciaUsuario[indexAtual].id === sequencia[indexAtual].id) {
-        if (sequenciaUsuario.length === sequencia.length) {
-            pararTimer();
-            pontuacao++;
-            atualizarPlacar();
-            podeClicar = false;
-            if (sequencia.length >= limite) {
-
-                somVitoria.currentTime = 0;
-                somVitoria.play();
-                alert('Parabéns! Você completou a sequência máxima.');
-                reiniciarJogo();
-                return;
-            }
-            setTimeout(() => {
-                sortear = Math.floor(Math.random() * cores.length);
-                sequencia.push(cores[sortear]);
-                console.log("Nova sequência:", sequencia.map(cor => cor.id));
-                selecionar();
-            }, 1000);
-        }
-    } else {
-        pararTimer();
-        somDerrota.currentTime = 0;
-        somDerrota.play();
-        alert('Você errou a sequência. Reiniciando...');
+      if (sequencia.length >= limite) {
+        somVitoria.play();
+        alert('Parabéns! Você completou a sequência máxima.');
         reiniciarJogo();
+      } else {
+        setTimeout(() => {
+          const sortear = Math.floor(Math.random() * cores.length);
+          sequencia.push(cores[sortear]);
+          selecionar();
+        }, 1000);
+      }
     }
+  } else {
+    pararTimer();
+    somDerrota.play();
+    alert('Você errou a sequência. Reiniciando...');
+    reiniciarJogo();
+  }
 }
 
 function atualizarPlacar() {
-    placarDiv.textContent = `Placar: ${pontuacao}`;
+  placarDiv.textContent = `Placar: ${pontuacao}`;
 }
 
 function iniciarTimer() {
-    tempo = 7;
+  tempo = 7;
+  atualizarTimer();
+  pararTimer();
+  intervalo = setInterval(() => {
+    tempo--;
     atualizarTimer();
-    pararTimer();
-    intervalo = setInterval(() => {
-        tempo--;
-        atualizarTimer();
-        if (tempo <= 0) {
-            pararTimer();
-            somDerrota.currentTime = 0;
-            somDerrota.play();
-            alert('Tempo esgotado. Reiniciando...');
-            reiniciarJogo();
-        }
-    }, 1000);
+    if (tempo <= 0) {
+      pararTimer();
+      somDerrota.play();
+      alert('Tempo esgotado. Reiniciando...');
+      reiniciarJogo();
+    }
+  }, 1000);
 }
 
 function atualizarTimer() {
-    const minutos = String(Math.floor(tempo / 60)).padStart(2, '0');
-    const segundos = String(tempo % 60).padStart(2, '0');
-    timer.textContent = `${minutos}:${segundos}`;
+  const minutos = String(Math.floor(tempo / 60)).padStart(2, '0');
+  const segundos = String(tempo % 60).padStart(2, '0');
+  timer.textContent = `${minutos}:${segundos}`;
 }
 
 function pararTimer() {
-    clearInterval(intervalo);
+  clearInterval(intervalo);
 }
 
 function reiniciarJogo() {
-    sequencia = [];
-    sequenciaUsuario = [];
-    pontuacao = 0;
-    atualizarPlacar();
-    jogoAtivo = false;
-    podeClicar = false;
-    timer.textContent = '00:00';
-    desabilitarBotoes(true);
+  conteudoJogo.style.display = 'none';
+  comecar.style.display = 'inline-block';
+  titulo.style.display = 'flex';
+  header.style.display = 'none';
+  sequencia = [];
+  sequenciaUsuario = [];
+  pontuacao = 0;
+  atualizarPlacar();
+  pararTimer();
+  jogoAtivo = false;
+  podeClicar = false;
+  timer.textContent = '00:00';
+  desabilitarBotoes(true);
 }
 
 function animarClique(botao) {
-    botao.style.transition = "transform 0.3s ease";
-    botao.style.transform = "scale(1.5)";
-    setTimeout(() => {
-        botao.style.transform = "scale(1)";
-    }, 500);
+  botao.classList.add('selecionado');
+  setTimeout(() => botao.classList.remove('selecionado'), 500);
 }
 
 vermelho.addEventListener('click', () => verificarClique(vermelho));
@@ -228,7 +188,5 @@ amarelo.addEventListener('click', () => verificarClique(amarelo));
 
 window.addEventListener('DOMContentLoaded', () => {
   const musica = document.getElementById('musicaFundo');
-  if (musica) {
-    musica.volume = 0.2; // volume de 20%
-  }
+  if (musica) musica.volume = 0.2;
 });
