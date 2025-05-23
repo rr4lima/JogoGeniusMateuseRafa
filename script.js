@@ -225,3 +225,10 @@ vermelho.addEventListener('click', () => verificarClique(vermelho));
 azul.addEventListener('click', () => verificarClique(azul));
 verde.addEventListener('click', () => verificarClique(verde));
 amarelo.addEventListener('click', () => verificarClique(amarelo));
+
+window.addEventListener('DOMContentLoaded', () => {
+  const musica = document.getElementById('musicaFundo');
+  if (musica) {
+    musica.volume = 0.2; // volume de 20%
+  }
+});
