@@ -185,7 +185,7 @@ function iniciarTimer() {
         if (tempo <= 0) {
             pararTimer();
             somDerrota.currentTime = 0;
-            somDerrota.play(); // 🔊 Som de derrota por tempo
+            somDerrota.play();
             alert('Tempo esgotado. Reiniciando...');
             reiniciarJogo();
         }
