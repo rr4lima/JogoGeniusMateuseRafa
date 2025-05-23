@@ -186,7 +186,16 @@ azul.addEventListener('click', () => verificarClique(azul));
 verde.addEventListener('click', () => verificarClique(verde));
 amarelo.addEventListener('click', () => verificarClique(amarelo));
 
+
 window.addEventListener('DOMContentLoaded', () => {
   const musica = document.getElementById('musicaFundo');
-  if (musica) musica.volume = 0.2;
+  musica.volume = 0.2; 
+  musica.play().catch(e => console.log("Autoplay bloqueado:", e));
+});
+
+
+document.getElementById('comecar').addEventListener('click', function () {
+  const musica = document.getElementById('musicaFundo');
+  musica.volume = 0.2;
+  musica.play().catch(e => console.log("Erro ao tentar tocar áudio:", e));
 });
