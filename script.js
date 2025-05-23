@@ -1,12 +1,12 @@
 const sons = {
-    vermelho: new Audio('vermelho.mp3'),
-    azul: new Audio('azul.mp3'),
-    verde: new Audio('verde.mp3'),
-    amarelo: new Audio('amarelo.mp3')
+    vermelho: new Audio('sounds/vermelho.mp3'),
+    azul: new Audio('sounds/azul.mp3'),
+    verde: new Audio('sounds/verde.mp3'),
+    amarelo: new Audio('sounds/amarelo.mp3')
 };
 
-const somVitoria = new Audio('ganhou.wav');
-const somDerrota = new Audio('perdeu.wav');
+const somVitoria = new Audio('sounds/ganhou.wav');
+const somDerrota = new Audio('sounds/perdeu.wav');
 
 const comecar = document.getElementById('comecar');
 const btns = document.getElementsByClassName('botao-cor');
