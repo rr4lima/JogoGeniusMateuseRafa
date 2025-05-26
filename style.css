@@ -223,53 +223,27 @@ button {
 
 @media (max-width: 768px) {
   #titulo {
-    width: 90%;
+    width: 80%;
     height: auto;
+    margin-top: 20px;
+  }
+
+  #telaInicio {
+    justify-content: center;
+    padding-top: 20px;
   }
 
   #comecar,
   #voltarBtn {
     width: 80%;
-    height: 80px;
-    font-size: 18px;
+    height: 70px;
+    font-size: 16px;
   }
 
   .start {
     width: 60%;
-    height: 60px;
-    font-size: 16px;
-  }
-
-  .botao-cor {
-    width: 150px;
-    height: 150px;
-  }
-
-  .cores {
-    flex-wrap: wrap;
-    gap: 15px;
-  }
-
-  #header {
-    flex-direction: column;
-    height: auto;
-    gap: 10px;
-    font-size: 20px;
-    padding: 15px;
-  }
-
-  #placar,
-  #timer {
-    font-size: 16px;
-  }
-}
-
-@media (max-width: 480px) {
-
-  #comecar,
-  #voltarBtn {
-    font-size: 16px;
-    height: 70px;
+    height: 50px;
+    font-size: 14px;
   }
 
   .botao-cor {
@@ -277,9 +251,16 @@ button {
     height: 120px;
   }
 
-  .start {
-    width: 70%;
-    height: 50px;
+  .cores {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+
+  #header {
+    flex-direction: column;
+    padding: 10px;
+    gap: 5px;
     font-size: 14px;
   }
 
@@ -287,8 +268,52 @@ button {
   #timer {
     font-size: 14px;
   }
+}
+
+@media (max-width: 480px) {
+  #titulo {
+    width: 90%;
+    margin-top: 20px; 
+  }
+
+  #telaInicio {
+    justify-content: center;
+    padding-top: 20px;
+  }
+
+  #comecar,
+  #voltarBtn {
+    font-size: 14px;
+    height: 60px;
+  }
+
+  .start {
+    width: 70%;
+    height: 45px;
+    font-size: 12px;
+  }
+
+  .botao-cor {
+    width: 100px;
+    height: 100px;
+  }
+
+  .cores {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+  }
 
   #header {
-    padding: 10px;
+    flex-direction: column;
+    padding: 8px;
+    gap: 5px;
+    font-size: 12px;
+  }
+
+  #placar,
+  #timer {
+    font-size: 12px;
   }
 }
+
