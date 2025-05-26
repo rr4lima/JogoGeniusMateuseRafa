@@ -225,12 +225,17 @@ button {
   #titulo {
     width: 80%;
     height: auto;
-    margin-top: 20px;
   }
 
   #telaInicio {
+    height: 100vh; /* Preenche a tela toda */
+    justify-content: center; /* Centraliza verticalmente */
+    padding-top: 0; /* Remove espaço extra */
+  }
+
+  #start {
+    height: auto;
     justify-content: center;
-    padding-top: 20px;
   }
 
   #comecar,
@@ -247,14 +252,14 @@ button {
   }
 
   .botao-cor {
-    width: 120px;
-    height: 120px;
+    width: 160px; /* Aumentei um pouco */
+    height: 160px;
   }
 
   .cores {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
+    gap: 20px;
   }
 
   #header {
@@ -273,12 +278,17 @@ button {
 @media (max-width: 480px) {
   #titulo {
     width: 90%;
-    margin-top: 20px; 
   }
 
   #telaInicio {
+    height: 100vh;
     justify-content: center;
-    padding-top: 20px;
+    padding-top: 0;
+  }
+
+  #start {
+    height: auto;
+    justify-content: center;
   }
 
   #comecar,
@@ -294,14 +304,14 @@ button {
   }
 
   .botao-cor {
-    width: 100px;
-    height: 100px;
+    width: 130px; /* Aumentei também aqui */
+    height: 130px;
   }
 
   .cores {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
+    gap: 15px;
   }
 
   #header {
@@ -316,4 +326,3 @@ button {
     font-size: 12px;
   }
 }
-
